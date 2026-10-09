@@ -275,7 +275,7 @@ def run_main_scraper():
                         
                     batch_size = min(50, target - total_processed)
                     print(f"{C}-> Mendaur ulang Context (Batch {batch_size} Job)...{W}")
-                    context = browser.new_context(viewport={"width": 1280, "height": 800}, locale="id-ID", user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36", locale="id-ID")
+                    context = browser.new_context(viewport={"width": 1280, "height": 800}, locale="id-ID", user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36")
                     
                     def block_heavy_assets(route):
                         if route.request.resource_type in ["image", "media", "font"]:
@@ -530,7 +530,7 @@ def run_wifi_scraper():
                     
                     batch_size = min(50, target - total_processed)
                     print(f"{C}-> Mendaur ulang Context (Cek {batch_size} Target)...{W}")
-                    context = browser.new_context(viewport={"width": 1280, "height": 800}, locale="id-ID", user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36", locale="id-ID")
+                    context = browser.new_context(viewport={"width": 1280, "height": 800}, locale="id-ID", user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36")
                     
                     def block_wifi_assets(route):
                         if route.request.resource_type in ["image", "media", "font"]:
