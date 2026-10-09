@@ -255,7 +255,7 @@ def run_main_scraper():
     
     try:
         with sync_playwright() as p:
-            browser = p.chromium.launch(headless=True, args=browser_launch_args)
+            browser = p.chromium.launch(headless=False, args=browser_launch_args)
             jobs_in_current_browser = 0
             consecutive_zero_count = 0
             try:
@@ -270,7 +270,7 @@ def run_main_scraper():
                     if jobs_in_current_browser >= 100:
                         print(f"\n{C}-> [PENYEGARAN RAM] Hard Recycling Browser Chromium...{W}")
                         browser.close()
-                        browser = p.chromium.launch(headless=True, args=browser_launch_args)
+                        browser = p.chromium.launch(headless=False, args=browser_launch_args)
                         jobs_in_current_browser = 0
                         
                     batch_size = min(50, target - total_processed)
@@ -511,7 +511,7 @@ def run_wifi_scraper():
     
     try:
         with sync_playwright() as p:
-            browser = p.chromium.launch(headless=True, args=browser_launch_args)
+            browser = p.chromium.launch(headless=False, args=browser_launch_args)
             urls_in_browser = 0
             try:
                 while total_processed < target and not interrupted:
@@ -525,7 +525,7 @@ def run_wifi_scraper():
                     if urls_in_browser >= 100:
                         print(f"\n{C}-> [PENYEGARAN RAM] Hard Recycling Browser Chromium Wi-Fi...{W}")
                         browser.close()
-                        browser = p.chromium.launch(headless=True, args=browser_launch_args)
+                        browser = p.chromium.launch(headless=False, args=browser_launch_args)
                         urls_in_browser = 0
                     
                     batch_size = min(50, target - total_processed)
