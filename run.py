@@ -255,7 +255,7 @@ def run_main_scraper():
     
     try:
         with sync_playwright() as p:
-            browser = p.chromium.launch(headless=False, args=browser_launch_args)
+            browser = p.chromium.launch(headless=True, args=browser_launch_args)
             jobs_in_current_browser = 0
             consecutive_zero_count = 0
             try:
@@ -270,19 +270,14 @@ def run_main_scraper():
                     if jobs_in_current_browser >= 100:
                         print(f"\n{C}-> [PENYEGARAN RAM] Hard Recycling Browser Chromium...{W}")
                         browser.close()
-                        browser = p.chromium.launch(headless=False, args=browser_launch_args)
+                        browser = p.chromium.launch(headless=True, args=browser_launch_args)
                         jobs_in_current_browser = 0
                         
                     batch_size = min(50, target - total_processed)
                     print(f"{C}-> Mendaur ulang Context (Batch {batch_size} Job)...{W}")
                     context = browser.new_context(viewport={"width": 1280, "height": 800}, locale="id-ID", user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36")
                     
-                    def block_heavy_assets(route):
-                        if route.request.resource_type in ["image", "media", "font"]:
-                            route.abort()
-                        else:
-                            route.continue_()
-                    context.route("**/*", block_heavy_assets)
+                    # asset blocking disabled for stable google maps rendering
                     
                     try:
                         count = 0
@@ -338,8 +333,8 @@ def run_main_scraper():
 
                             print(f"\r   [{total_processed}/{target}] ✅ Ekstrak Selesai: {kw} di {kota} ({places_this_job} Tempat)            ")
 
-                            if consecutive_zero_count >= 6:
-                                print(f"\n   {Y}⚠️ [SENSOR GHOST-BLOCK] Terdeteksi 6 Job beruntun bernilai 0 tempat.")
+                            if consecutive_zero_count >= 20:
+                                print(f"\n   {Y}⚠️ [SENSOR GHOST-BLOCK] Terdeteksi 20 Job beruntun bernilai 0 tempat.")
                                 print(f"      Mengaktifkan Auto-Cooldown 30 detik untuk penyegaran koneksi...{W}")
                                 time.sleep(30)
                                 consecutive_zero_count = 0
@@ -511,7 +506,7 @@ def run_wifi_scraper():
     
     try:
         with sync_playwright() as p:
-            browser = p.chromium.launch(headless=False, args=browser_launch_args)
+            browser = p.chromium.launch(headless=True, args=browser_launch_args)
             urls_in_browser = 0
             try:
                 while total_processed < target and not interrupted:
@@ -525,7 +520,7 @@ def run_wifi_scraper():
                     if urls_in_browser >= 100:
                         print(f"\n{C}-> [PENYEGARAN RAM] Hard Recycling Browser Chromium Wi-Fi...{W}")
                         browser.close()
-                        browser = p.chromium.launch(headless=False, args=browser_launch_args)
+                        browser = p.chromium.launch(headless=True, args=browser_launch_args)
                         urls_in_browser = 0
                     
                     batch_size = min(50, target - total_processed)
